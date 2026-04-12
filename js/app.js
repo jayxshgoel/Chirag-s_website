@@ -102,51 +102,11 @@ function initScrollytellingThree() {
     transmission: 0.6, transparent: true, opacity: 0.8
   });
 
-  /* Build fallback cubes if loading fails or isn't requested */
-  function finishWithFallback() {
-    console.warn("Using procedural fallback.");
-    buildProceduralFallback(buildingGroup, glassMat);
-    finishLoadingScreen();
-  }
-
-  /* Try Loading OBJ */
-  const loader = new THREE.OBJLoader();
-  loader.load('model_3d.obj', (obj) => {
-    // SUCCESS
-    obj.traverse((child) => {
-      if (child.isMesh) {
-        child.material = glassMat;
-        const edges = new THREE.EdgesGeometry(child.geometry);
-        const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x00C8FF, transparent: true, opacity: 0.15 }));
-        child.add(line);
-      }
-    });
-
-    const box = new THREE.Box3().setFromObject(obj);
-    const size = box.getSize(new THREE.Vector3()).length();
-    const center = box.getCenter(new THREE.Vector3());
-    obj.position.x -= center.x;
-    obj.position.y -= center.y;
-    obj.position.z -= center.z;
-    
-    // Scale it to generic target size
-    const targetSize = 18;
-    obj.scale.setScalar(targetSize / size);
-
-    buildingGroup.add(obj);
-    finishLoadingScreen();
-
-  }, (xhr) => {
-    // PROGRESS
-    if (xhr.lengthComputable) {
-      const pctLoaded = (xhr.loaded / xhr.total) * 100;
-      updateLoadingScreen(pctLoaded);
-    }
-  }, (err) => {
-    // ERROR
-    console.warn("Failed to load external OBJ.", err);
-    finishWithFallback();
-  });
+  /* Build Procedural "Coded" Building */
+  buildProceduralFallback(buildingGroup, glassMat);
+  
+  // We instantly finish the loader because procedural generation is instant
+  finishLoadingScreen();
 
   /* Particles */
   const pGeo = new THREE.BufferGeometry();
