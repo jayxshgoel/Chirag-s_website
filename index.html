@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Trishakti Immersive Realty — Next-generation real estate visualisation through AR, VR & 3D technology. Experience properties before they're built."/>
+  <title>Trishakti Immersive Realty | AR · VR · 3D Real Estate Visualisation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/png" href="logo.png"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+  <!-- ═══════════════════ LOADER ═══════════════════ -->
+  <div id="loader">
+    <div class="loader-inner">
+      <div class="loader-cube" style="animation: none; width: auto; height: auto;">
+        <img src="logo.png" alt="Trishakti Logo" style="height: 200px; width: auto; object-fit: contain; margin-bottom: 30px;">
+      </div>
+      <div class="loader-brand">TRISHAKTI</div>
+      <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
+      <div class="loader-pct" id="loaderPct">0%</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ NAV ═══════════════════ -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo">
+        <img src="logo.png" alt="Trishakti Logo" style="height: 64px; width: auto; object-fit: contain; margin-right: 16px;">
+        <div class="logo-text-wrap">
+          <span class="logo-name">TRISHAKTI</span>
+          <span class="logo-sub">IMMERSIVE REALTY</span>
+        </div>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#home" class="nl">Home</a></li>
+        <li><a href="solutions.html" class="nl">Solutions</a></li>
+        <li><a href="index.html#process" class="nl">Technology</a></li>
+        <li><a href="index.html#vision" class="nl">Vision</a></li>
+        <li><a href="contact.html" class="nl">Contact</a></li>
+      </ul>
+      <button class="theme-toggle" aria-label="Toggle Theme">
+        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      </button>
+      <a href="contact.html" class="nav-cta-btn">Get Demo</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="index.html#home">Home</a>
+      <a href="solutions.html">Solutions</a>
+      <a href="index.html#process">Technology</a>
+      <a href="index.html#vision">Vision</a>
+      <a href="contact.html">Contact</a>
+      <div class="mobile-theme-row">
+        <span>Dark Mode</span>
+        <button class="theme-toggle mobile-theme-t" aria-label="Toggle Theme">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+      </div>
+      <a href="contact.html" class="mobile-cta">Get Demo</a>
+    </div>
+  </nav>
+
+  <!-- FIXED 3D BACKGROUND -->
+  <canvas id="heroCanvas"></canvas>
+
+  <!-- ═══════════════════ HERO ═══════════════════ -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <div class="hud-ring-wrap">
+        <div class="hud-ring r-one"></div>
+        <div class="hud-ring r-two"></div>
+        <div class="hud-ring r-three"></div>
+      </div>
+      <div class="hero-badge"><span class="badge-pulse"></span>Next-Gen Real Estate Technology</div>
+      <h1 class="hero-h1">Building the<br><span class="glow-text">Future of Real Estate</span><br>Visualisation</h1>
+      <p class="hero-typed"><span id="typedEl"></span></p>
+      <div class="hero-btns">
+        <a href="#solutions" class="btn-primary">Explore Solutions</a>
+        <a href="#vr" class="btn-ghost">Watch Demo <span>▶</span></a>
+      </div>
+      <div class="hero-stats-row">
+        <div class="hs"><span class="hs-n">20+</span><span class="hs-l">Years Legacy</span></div>
+        <div class="hs-div"></div>
+        <div class="hs"><span class="hs-n">10+</span><span class="hs-l">Projects</span></div>
+        <div class="hs-div"></div>
+        <div class="hs"><span class="hs-n">3</span><span class="hs-l">Technologies</span></div>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll to explore</span>
+      <div class="scroll-arrow-anim"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ PILLARS ═══════════════════ -->
+  <section id="about" class="section pillars-section">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="sec-label">What We Do</span>
+        <h2 class="sec-title">Transforming Property Experience</h2>
+        <p class="sec-desc">We merge cutting-edge technology with decades of real estate expertise to create experiences that redefine how properties are visualised and sold.</p>
+      </div>
+      <div class="pillars-grid">
+        <div class="pillar-card reveal-card" data-delay="0">
+          <div class="pc-icon">
+            <svg viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="26" stroke="#00C8FF" stroke-width="1.2" stroke-dasharray="4 3" opacity=".4"/>
+            <rect x="14" y="20" width="28" height="22" rx="3" stroke="#00C8FF" stroke-width="1.5"/>
+            <path d="M20 20V15a8 8 0 0116 0v5" stroke="#4DB8FF" stroke-width="1.5"/>
+            <circle cx="28" cy="31" r="4" fill="#00C8FF" opacity=".8"/>
+            <path d="M5 28L14 20M51 28L42 20" stroke="#00C8FF" stroke-width="1" opacity=".5"/></svg>
+          </div>
+          <h3>Augmented Reality</h3>
+          <p>Overlay digital property data onto real-world environments so clients visualise spaces in their actual surroundings.</p>
+          <div class="pc-tag">AR Technology</div>
+        </div>
+        <div class="pillar-card featured-pillar reveal-card" data-delay="100">
+          <div class="pc-icon">
+            <svg viewBox="0 0 56 56" fill="none"><rect x="6" y="18" width="44" height="28" rx="5" stroke="#00C8FF" stroke-width="1.5"/>
+            <ellipse cx="28" cy="32" rx="11" ry="9" stroke="#4DB8FF" stroke-width="1.5"/>
+            <circle cx="28" cy="32" r="4" fill="#00C8FF" opacity=".8"/>
+            <path d="M22 18L28 8l6 10" stroke="#00C8FF" stroke-width="1.5"/>
+            <circle cx="14" cy="32" r="2.5" fill="#2B5CE6"/>
+            <circle cx="42" cy="32" r="2.5" fill="#2B5CE6"/></svg>
+          </div>
+          <h3>Virtual Reality</h3>
+          <p>Full immersive walkthroughs that transport buyers inside their future home — long before construction is complete.</p>
+          <div class="pc-tag">VR Immersive</div>
+        </div>
+        <div class="pillar-card reveal-card" data-delay="200">
+          <div class="pc-icon">
+            <svg viewBox="0 0 56 56" fill="none"><polygon points="28,6 50,18 50,42 28,54 6,42 6,18" stroke="#00C8FF" stroke-width="1.5" fill="none"/>
+            <polygon points="28,16 42,24 42,40 28,48 14,40 14,24" stroke="#4DB8FF" stroke-width="1" fill="none" opacity=".5"/>
+            <circle cx="28" cy="32" r="5" fill="#00C8FF" opacity=".8"/>
+            <line x1="28" y1="6" x2="28" y2="16" stroke="#00C8FF" stroke-width="1"/>
+            <line x1="6" y1="18" x2="14" y2="24" stroke="#00C8FF" stroke-width="1"/>
+            <line x1="50" y1="18" x2="42" y2="24" stroke="#00C8FF" stroke-width="1"/></svg>
+          </div>
+          <h3>3D Visualisation</h3>
+          <p>Photorealistic interactive 3D models accessible on large touch displays and personal devices via QR code.</p>
+          <div class="pc-tag">3D Interactive</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ SOLUTIONS ═══════════════════ -->
+  <section id="solutions" class="section solutions-section">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="sec-label">Our Solutions</span>
+        <h2 class="sec-title">Complete Visualisation Ecosystem</h2>
+        <p class="sec-desc">Four powerful products covering the complete property exploration journey — from brochure to signing.</p>
+      </div>
+      <div class="sol-grid">
+
+        <div class="sol-card reveal-card has-qr" data-delay="0" style="cursor: pointer;" onclick="window.open('https://vaishnogreens-21vvejz2fqeq2-z16hmrs.needle.run/', '_blank')">
+          <div class="qr-overlay">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://vaishnogreens-21vvejz2fqeq2-z16hmrs.needle.run/" alt="Scan QR Code to Experience">
+            <p>Scan this QR through your phone to experience it.</p>
+            <small>Make sure to have good internet connectivity.</small>
+          </div>
+          <div class="sol-num">01</div>
+          <div class="sol-icon">
+            <svg viewBox="0 0 48 48" fill="none"><rect x="4" y="8" width="40" height="32" rx="3" stroke="#00C8FF" stroke-width="1.5"/>
+            <path d="M4 16h40" stroke="#00C8FF" stroke-width=".8" opacity=".3"/>
+            <rect x="10" y="22" width="14" height="11" rx="1.5" fill="#2B5CE6" opacity=".6"/>
+            <rect x="26" y="22" width="10" height="5" rx="1" fill="#00C8FF" opacity=".4"/>
+            <rect x="26" y="29" width="10" height="4" rx="1" fill="#4DB8FF" opacity=".3"/>
+            <circle cx="8" cy="12" r="1.5" fill="#00C8FF"/>
+            <circle cx="13" cy="12" r="1.5" fill="#4DB8FF" opacity=".5"/></svg>
+          </div>
+          <h3>3D Interactive Viewer</h3>
+          <p>Touch-enabled large display exploration with intuitive rotation, zoom, and navigation through exterior and interior spaces.</p>
+          <ul class="sol-feats"><li>Touch-gesture navigation</li><li>Interior + exterior views</li><li>Real-scale proportions</li></ul>
+          <a href="https://vaishnogreens-21vvejz2fqeq2-z16hmrs.needle.run/" target="_blank" class="sol-link">Open 3D Viewer →</a>
+        </div>
+
+        <div class="sol-card reveal-card has-qr" data-delay="100" style="cursor: pointer;" onclick="window.open('https://vaishnogreens-21vvejz2fqeq2-z16hmrs.needle.run/', '_blank')">
+          <div class="qr-overlay">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://vaishnogreens-21vvejz2fqeq2-z16hmrs.needle.run/" alt="Scan QR Code to Experience">
+            <p>Scan this QR through your phone to experience it.</p>
+            <small>Make sure to have good internet connectivity.</small>
+          </div>
+          <div class="sol-num">02</div>
+          <div class="sol-icon">
+            <svg viewBox="0 0 48 48" fill="none"><rect x="10" y="4" width="28" height="40" rx="3" stroke="#00C8FF" stroke-width="1.5"/>
+            <rect x="16" y="12" width="16" height="14" rx="1" fill="#2B5CE6" opacity=".5"/>
+            <rect x="16" y="28" width="9" height="3" rx=".5" fill="#00C8FF" opacity=".6"/>
+            <rect x="16" y="33" width="13" height="2" rx=".5" fill="#4DB8FF" opacity=".3"/>
+            <circle cx="34" cy="20" r="5" stroke="#00C8FF" stroke-width="1.5" fill="none"/>
+            <path d="M31.5 20l2 2 3-5" stroke="#00C8FF" stroke-width="1.2"/></svg>
+          </div>
+          <h3>3D Smart Brochure</h3>
+          <p>Transform traditional print into digital 3D. A simple QR scan unlocks full interactive property exploration on any device.</p>
+          <ul class="sol-feats"><li>QR-code activated</li><li>Mobile compatible</li><li>Anytime, anywhere access</li></ul>
+          <a href="https://vaishnogreens-21vvejz2fqeq2-z16hmrs.needle.run/" target="_blank" class="sol-link">View Smart Brochure →</a>
+        </div>
+
+        <div class="sol-card sol-featured reveal-card" data-delay="200">
+          <div class="sol-num">03</div>
+          <span class="sol-badge">Most Popular</span>
+          <div class="sol-icon">
+            <svg viewBox="0 0 48 48" fill="none"><rect x="6" y="18" width="36" height="22" rx="4" stroke="#00C8FF" stroke-width="1.5"/>
+            <ellipse cx="24" cy="29" rx="9" ry="7" stroke="#4DB8FF" stroke-width="1.5"/>
+            <circle cx="24" cy="29" r="3.5" fill="#00C8FF" opacity=".8"/>
+            <path d="M20 18L24 10l4 8" stroke="#00C8FF" stroke-width="1.5"/>
+            <circle cx="13" cy="29" r="2" fill="#2B5CE6"/>
+            <circle cx="35" cy="29" r="2" fill="#2B5CE6"/>
+            <rect x="18" y="40" width="12" height="3" rx="1" fill="#00C8FF" opacity=".4"/></svg>
+          </div>
+          <h3>Immersive VR Walkthrough</h3>
+          <p>Step inside your future home before it's built. Walk through spaces in real scale with customisable colours, furnished views, and a day/night simulator.</p>
+          <ul class="sol-feats"><li>Customisable wall colours</li><li>Furnished/unfurnished toggle</li><li>Day-to-night time simulator</li><li>Realistic balcony views</li></ul>
+          <a href="contact.html" class="sol-link">Learn More →</a>
+        </div>
+
+        <div class="sol-card reveal-card" data-delay="300">
+          <div class="sol-num">04</div>
+          <div class="sol-icon">
+            <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="#00C8FF" stroke-width="1" stroke-dasharray="3 2" opacity=".4"/>
+            <circle cx="24" cy="24" r="13" stroke="#4DB8FF" stroke-width="1" opacity=".3"/>
+            <circle cx="24" cy="24" r="4" fill="#00C8FF" opacity=".8"/>
+            <path d="M12 12L8 8M36 12L40 8M12 36L8 40M36 36L40 40" stroke="#00C8FF" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="5" y="5" width="6" height="6" rx="1" stroke="#4DB8FF" stroke-width="1" fill="none"/>
+            <rect x="37" y="5" width="6" height="6" rx="1" stroke="#4DB8FF" stroke-width="1" fill="none"/>
+            <rect x="5" y="37" width="6" height="6" rx="1" stroke="#4DB8FF" stroke-width="1" fill="none"/>
+            <rect x="37" y="37" width="6" height="6" rx="1" stroke="#4DB8FF" stroke-width="1" fill="none"/></svg>
+          </div>
+          <h3>Drone Simulator</h3>
+          <p>Interactive aerial view integrated with Google Earth. Navigate surroundings, understand location advantages, and visualise connectivity.</p>
+          <ul class="sol-feats"><li>Google Earth integration</li><li>Aerial navigation</li><li>Location intelligence</li></ul>
+          <a href="contact.html" class="sol-link">Learn More →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ PROCESS ═══════════════════ -->
+  <section id="process" class="section process-section">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="sec-label">How It Works</span>
+        <h2 class="sec-title">Your Journey Into Immersion</h2>
+      </div>
+      <div class="process-track">
+        <div class="process-line-bg"><div class="process-line-fill" id="processLineFill"></div></div>
+        <div class="proc-step reveal-card" data-delay="0">
+          <div class="ps-num">01</div>
+          <div class="ps-icon"><svg viewBox="0 0 36 36" fill="none"><rect x="4" y="4" width="28" height="28" rx="4" stroke="#00C8FF" stroke-width="1.5"/><circle cx="18" cy="18" r="8" stroke="#4DB8FF" stroke-width="1.5"/><circle cx="18" cy="18" r="3" fill="#00C8FF"/></svg></div>
+          <h4>Scan & Access</h4>
+          <p>Scan the QR on our smart brochure or access the platform directly from any device.</p>
+        </div>
+        <div class="proc-step reveal-card" data-delay="150">
+          <div class="ps-num">02</div>
+          <div class="ps-icon"><svg viewBox="0 0 36 36" fill="none"><path d="M18 4L32 12v12L18 32 4 24V12z" stroke="#00C8FF" stroke-width="1.5"/><path d="M18 10l8 5v10l-8 5-8-5V15z" stroke="#4DB8FF" stroke-width="1" opacity=".5"/><circle cx="18" cy="20" r="3" fill="#00C8FF"/></svg></div>
+          <h4>Load 3D Model</h4>
+          <p>The property loads instantly in full interactive 3D — no downloads required.</p>
+        </div>
+        <div class="proc-step reveal-card" data-delay="300">
+          <div class="ps-num">03</div>
+          <div class="ps-icon"><svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="14" stroke="#00C8FF" stroke-width="1.5"/><path d="M10 18c0-4 4-10 8-10s8 4 8 10" stroke="#4DB8FF" stroke-width="1.5" stroke-linecap="round"/><circle cx="18" cy="24" r="3" fill="#00C8FF" opacity=".8"/></svg></div>
+          <h4>Explore Freely</h4>
+          <p>Walk through spaces, customise finishes, toggle time of day — entirely at your pace.</p>
+        </div>
+        <div class="proc-step reveal-card" data-delay="450">
+          <div class="ps-num">04</div>
+          <div class="ps-icon"><svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="14" stroke="#4DB8FF" stroke-width="1" opacity=".5"/><path d="M8 18l8 8 12-14" stroke="#00C8FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h4>Decide with Confidence</h4>
+          <p>Make informed property decisions backed by a complete immersive experience.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ VR SECTION ═══════════════════ -->
+  <section id="vr" class="section vr-section">
+    <div class="vr-grid-bg"></div>
+    <div class="container vr-flex">
+      <div class="vr-left reveal">
+        <span class="sec-label">VR Walkthrough</span>
+        <h2 class="sec-title">Step Inside Before<br>It's <span class="glow-text">Built</span></h2>
+        <p>Our VR experience delivers real-scale property exploration with a detail that traditional site visits can't match.</p>
+        <ul class="vr-feats">
+          <li><span class="fd"></span>Customisable wall colours &amp; finishes</li>
+          <li><span class="fd"></span>Furnished / unfurnished toggle</li>
+          <li><span class="fd"></span>Accurate room dimensions</li>
+          <li><span class="fd"></span>Realistic balcony perspective</li>
+          <li><span class="fd"></span>Day-to-night time simulator</li>
+        </ul>
+        <div class="time-sim">
+          <div class="ts-labels"><span>☀️ Day</span><span>Night 🌙</span></div>
+          <div class="ts-track"><input type="range" id="timeSlider" min="0" max="100" value="25"/></div>
+          <div class="ts-time" id="tsTime">9:00 AM</div>
+        </div>
+        <a href="#contact" class="btn-primary">Request VR Demo</a>
+      </div>
+      <div class="vr-right reveal">
+        <div class="vr-display" id="vrDisplay">
+          <div class="vr-room">
+            <div class="vr-floor"></div>
+            <div class="vr-backwall" id="vrBackwall"></div>
+            <div class="vr-sidewall"></div>
+            <div class="vr-window"><div class="vr-light" id="vrLight"></div></div>
+          </div>
+          <div class="vr-scanline"></div>
+          <div class="vr-ring r1"></div>
+          <div class="vr-ring r2"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ DRONE ═══════════════════ -->
+  <section id="drone" class="section drone-section">
+    <div class="drone-wire-bg"></div>
+    <div class="container drone-flex">
+      <div class="drone-visual reveal">
+        <div class="aerial-map">
+          <div class="am-grid"></div>
+          <div class="am-road rh"></div>
+          <div class="am-road rv"></div>
+          <div class="am-block ab1"></div>
+          <div class="am-block ab2"></div>
+          <div class="am-block ab3"></div>
+          <div class="am-pin">
+            <div class="ap-dot"></div>
+            <div class="ap-ring apring1"></div>
+            <div class="ap-ring apring2"></div>
+          </div>
+        </div>
+        <div class="drone-body-wrap">
+          <div class="drone-core"></div>
+          <div class="drone-arm d-a1"></div><div class="drone-prop d-p1"></div>
+          <div class="drone-arm d-a2"></div><div class="drone-prop d-p2"></div>
+          <div class="drone-arm d-a3"></div><div class="drone-prop d-p3"></div>
+          <div class="drone-arm d-a4"></div><div class="drone-prop d-p4"></div>
+        </div>
+      </div>
+      <div class="drone-info reveal">
+        <span class="sec-label">Drone Simulator</span>
+        <h2 class="sec-title">Explore from<br>Above the <span class="glow-text">Skyline</span></h2>
+        <p>Our advanced drone simulator integrates with Google Earth to provide real-world aerial context — navigate surroundings and see the full connectivity picture.</p>
+        <div class="drone-feats">
+          <div class="df"><div class="df-icon">🌍</div><div><strong>Google Earth Integration</strong><span>Real-world satellite context</span></div></div>
+          <div class="df"><div class="df-icon">🗺️</div><div><strong>Location Intelligence</strong><span>Nearby amenities &amp; landmarks</span></div></div>
+          <div class="df"><div class="df-icon">🏗️</div><div><strong>Infrastructure View</strong><span>Roads, connectivity &amp; development</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ VISION ═══════════════════ -->
+  <section id="vision" class="section vision-section">
+    <div class="container">
+      <div class="vision-content reveal">
+        <span class="sec-label">Our Vision</span>
+        <blockquote class="vision-quote">
+          "To bring <span class="glow-text">digital transformation</span> to real estate — making property exploration more <span class="glow-text">immersive</span>, transparent, and experiential."
+        </blockquote>
+        <div class="vision-divider">
+          <svg width="22" height="22" viewBox="0 0 40 40"><polygon points="20,3 37,12 20,21 3,12" fill="url(#gTop)"/><polygon points="3,12 20,21 20,37 3,28" fill="url(#gLeft)"/><polygon points="20,21 37,12 37,28 20,37" fill="url(#gRight)"/></svg>
+        </div>
+        <p class="vision-sub">Backed by Trishakti Promoters &amp; Builders — decades of real estate expertise now powering the next generation of property technology.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ STATS ═══════════════════ -->
+  <section id="legacy" class="section stats-section">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="sec-label">Our Legacy</span>
+        <h2 class="sec-title">Numbers That Speak</h2>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card reveal-card" data-delay="0"><span class="sc-val"><span class="counter" data-target="20">0</span>+</span><span class="sc-label">Years of Real Estate Legacy</span></div>
+        <div class="stat-card reveal-card" data-delay="100"><span class="sc-val"><span class="counter" data-target="10">0</span>+</span><span class="sc-label">Immersive Projects Delivered</span></div>
+        <div class="stat-card reveal-card" data-delay="200"><span class="sc-val"><span class="counter" data-target="3">0</span></span><span class="sc-label">Core Technologies — AR · VR · 3D</span></div>
+        <div class="stat-card reveal-card" data-delay="300"><span class="sc-val"><span class="counter" data-target="100">0</span>%</span><span class="sc-label">Client Satisfaction Rate</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ CONTACT ═══════════════════ -->
+  <section id="contact" class="section contact-section">
+    <div class="container">
+      <div class="sec-header reveal">
+        <span class="sec-label">Get In Touch</span>
+        <h2 class="sec-title">Ready to Go Immersive?</h2>
+        <p class="sec-desc">Book a live demo and experience the future of real estate visualisation firsthand.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <div class="ci-founder">
+            <div class="ci-avatar">CP</div>
+            <div><div class="ci-name">Chirag Patnaik</div><div class="ci-role">AR/VR Developer &amp; Founder</div></div>
+          </div>
+          <div class="ci-details">
+            <a href="tel:+918984205703" class="ci-row"><span class="ci-ic">📞</span><span>+91 8984205703</span></a>
+            <a href="mailto:chiragpatnaik@gmail.com" class="ci-row"><span class="ci-ic">✉️</span><span>chiragpatnaik@gmail.com</span></a>
+            <div class="ci-row"><span class="ci-ic">📍</span><span>Flat No. 506, 5th Floor, Odyssa Business Centre,<br>Rasulgrah, Bhubaneswar – 751010, Odisha</span></div>
+          </div>
+        </div>
+        <form class="contact-form reveal" id="contactForm">
+          <div class="form-row">
+            <div class="fg"><input type="text" id="fName" placeholder="Your Name" required/><label for="fName">Your Name</label></div>
+            <div class="fg"><input type="text" id="fCompany" placeholder="Company / Project"/><label for="fCompany">Company</label></div>
+          </div>
+          <div class="form-row">
+            <div class="fg"><input type="email" id="fEmail" placeholder="Email Address" required/><label for="fEmail">Email</label></div>
+            <div class="fg"><input type="tel" id="fPhone" placeholder="Phone Number"/><label for="fPhone">Phone</label></div>
+          </div>
+          <div class="fg">
+            <select id="fSol"><option value="" disabled selected>Interested In…</option>
+              <option>3D Interactive Viewer</option>
+              <option>3D Smart Brochure</option>
+              <option>Immersive VR Walkthrough</option>
+              <option>Drone Simulator</option>
+              <option>Complete Package</option>
+            </select>
+          </div>
+          <div class="fg"><textarea id="fMsg" rows="4" placeholder="Tell us about your project…"></textarea></div>
+          <button type="submit" class="btn-primary btn-full" id="submitBtn">Book a Demo <span>→</span></button>
+          <div class="form-success" id="formSuccess">✅ Thank you! We'll reach out within 24 hours.</div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FOOTER ═══════════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#home" class="nav-logo">
+          <img src="logo.png" alt="Trishakti Logo" style="height: 64px; width: auto; object-fit: contain; margin-right: 16px;">
+          <div class="logo-text-wrap"><span class="logo-name">TRISHAKTI</span><span class="logo-sub">IMMERSIVE REALTY</span></div>
+        </a>
+        <p>Building the future of real estate visualisation through AR, VR &amp; 3D technology.</p>
+      </div>
+      <div class="footer-links-wrap">
+        <div class="fl-col"><h4>Solutions</h4>
+          <a href="solutions.html">3D Interactive Viewer</a>
+          <a href="solutions.html">3D Smart Brochure</a>
+          <a href="solutions.html">VR Walkthrough</a>
+          <a href="solutions.html">Drone Simulator</a>
+        </div>
+        <div class="fl-col"><h4>Company</h4>
+          <a href="index.html#about">About Us</a>
+          <a href="index.html#vision">Vision</a>
+          <a href="index.html#legacy">Legacy</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <div class="fl-col"><h4>Contact</h4>
+          <a href="tel:+918984205703">+91 8984205703</a>
+          <a href="mailto:chiragpatnaik@gmail.com">chiragpatnaik@gmail.com</a>
+          <span>Bhubaneswar, Odisha</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Trishakti Immersive Realty. All rights reserved.</span>
+      <span>Made by students of College Avenue in AIVenue Labs</span>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════ SCRIPTS ═══════════════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r132/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.0/examples/js/loaders/OBJLoader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
