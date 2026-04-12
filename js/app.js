@@ -4,31 +4,36 @@
    Typed.js · Day/Night · Counters
 ══════════════════════════════════════════ */
 
-/* ── 1. LOADER ── */
-(function runLoader() {
-  const bar   = document.getElementById('loaderBar');
-  const pct   = document.getElementById('loaderPct');
-  const loader= document.getElementById('loader');
-  let progress = 0;
-  const iv = setInterval(() => {
-    progress += Math.random() * 18 + 4;
-    if (progress >= 100) {
-      progress = 100;
-      clearInterval(iv);
-      setTimeout(() => {
-        loader.classList.add('done');
-        setTimeout(() => { loader.style.display = 'none'; initAll(); }, 600);
-      }, 300);
-    }
-    bar.style.width = progress + '%';
-    pct.textContent = Math.floor(progress) + '%';
-  }, 100);
-})();
+let appInitialized = false;
 
-/* ── 2. MASTER INIT ── */
-function initAll() {
-  initThemeToggle();
+function finishLoadingScreen() {
+  if (appInitialized) return;
+  appInitialized = true;
+  const loader = document.getElementById('loader');
+  if (loader) {
+    loader.classList.add('done');
+    setTimeout(() => { 
+      loader.style.display = 'none'; 
+      // Initialize layout, GSAP, inputs only after 3D is ready
+      initAllExceptThree();
+    }, 600);
+  }
+}
+
+function updateLoadingScreen(pct) {
+  const bar = document.getElementById('loaderBar');
+  const pctTxt = document.getElementById('loaderPct');
+  if (bar) bar.style.width = Math.floor(pct) + '%';
+  if (pctTxt) pctTxt.textContent = Math.floor(pct) + '%';
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  // Start the 3D process immediately, it will call finishLoadingScreen()
   initScrollytellingThree();
+});
+
+function initAllExceptThree() {
+  initThemeToggle();
   initTyped();
   initNavbar();
   initScrollAnimations();
@@ -97,9 +102,17 @@ function initScrollytellingThree() {
     transmission: 0.6, transparent: true, opacity: 0.8
   });
 
+  /* Build fallback cubes if loading fails or isn't requested */
+  function finishWithFallback() {
+    console.warn("Using procedural fallback.");
+    buildProceduralFallback(buildingGroup, glassMat);
+    finishLoadingScreen();
+  }
+
   /* Try Loading OBJ */
   const loader = new THREE.OBJLoader();
   loader.load('model_3d.obj', (obj) => {
+    // SUCCESS
     obj.traverse((child) => {
       if (child.isMesh) {
         child.material = glassMat;
@@ -121,10 +134,18 @@ function initScrollytellingThree() {
     obj.scale.setScalar(targetSize / size);
 
     buildingGroup.add(obj);
+    finishLoadingScreen();
 
-  }, undefined, (err) => {
-    console.warn("Failed to load external OBJ (likely CORS file:// restriction). Using procedural fallback.");
-    buildProceduralFallback(buildingGroup, glassMat);
+  }, (xhr) => {
+    // PROGRESS
+    if (xhr.lengthComputable) {
+      const pctLoaded = (xhr.loaded / xhr.total) * 100;
+      updateLoadingScreen(pctLoaded);
+    }
+  }, (err) => {
+    // ERROR
+    console.warn("Failed to load external OBJ.", err);
+    finishWithFallback();
   });
 
   /* Particles */
