@@ -448,19 +448,44 @@ function initContactForm() {
 
   form.addEventListener('submit', e => {
     e.preventDefault();
-    btn.textContent = 'Sending…';
+
+    /* Gather field values */
+    const name    = (document.getElementById('fName')?.value    || '').trim();
+    const company = (document.getElementById('fCompany')?.value || '').trim();
+    const email   = (document.getElementById('fEmail')?.value   || '').trim();
+    const phone   = (document.getElementById('fPhone')?.value   || '').trim();
+    const sol     = (document.getElementById('fSol')?.value     || '').trim();
+    const msg     = (document.getElementById('fMsg')?.value     || '').trim();
+
+    /* Compose WhatsApp message */
+    const lines = [
+      '🏢 *New Demo Request — Trishakti Immersive Realty*',
+      '',
+      `👤 *Name:* ${name}`,
+      company ? `🏗️ *Company/Project:* ${company}` : null,
+      email   ? `✉️ *Email:* ${email}`   : null,
+      phone   ? `📞 *Phone:* ${phone}`   : null,
+      sol     ? `🎯 *Interested In:* ${sol}` : null,
+      msg     ? `\n💬 *Message:*\n${msg}` : null,
+    ].filter(Boolean).join('\n');
+
+    const waUrl = `https://wa.me/918984205703?text=${encodeURIComponent(lines)}`;
+
+    /* Visual feedback */
+    btn.textContent = 'Opening WhatsApp…';
     btn.disabled    = true;
-    /* Simulate send */
+
     setTimeout(() => {
-      btn.textContent = '✓ Sent!';
-      success.style.display = 'block';
+      window.open(waUrl, '_blank');
+      btn.textContent = '✓ Message Ready!';
+      if (success) success.style.display = 'block';
       form.reset();
       setTimeout(() => {
         btn.textContent = 'Book a Demo →';
         btn.disabled    = false;
-        success.style.display = 'none';
+        if (success) success.style.display = 'none';
       }, 4000);
-    }, 1200);
+    }, 600);
   });
 }
 

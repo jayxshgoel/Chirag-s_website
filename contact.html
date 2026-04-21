@@ -254,7 +254,7 @@
       <h2>Send us a Message</h2>
       <p>Fill out the form below and we will get back to you within 24 hours.</p>
       
-      <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Message Sent Successfully!');">
+      <form id="demoContactForm" novalidate>
         <div class="form-group">
           <label for="name">Full Name</label>
           <input type="text" id="name" class="form-control" placeholder="John Doe" required>
@@ -288,7 +288,10 @@
           <textarea id="message" class="form-control" placeholder="Tell us about your upcoming project..." required></textarea>
         </div>
 
-        <button type="submit" class="submit-btn">Send Message</button>
+        <button type="submit" id="demoSubmitBtn" class="submit-btn">Send Message</button>
+        <div id="demoFormSuccess" style="display:none; margin-top:16px; padding:14px 18px; background:rgba(0,200,80,0.12); border:1px solid rgba(0,200,80,0.4); border-radius:8px; color:#4ade80; font-family:'Rajdhani',sans-serif; font-size:1rem;">
+          &#x2705; Opening WhatsApp&hellip; Your message is ready to send!
+        </div>
       </form>
     </div>
 
@@ -336,5 +339,50 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="js/app.js"></script>
+  <script>
+    (function () {
+      var form    = document.getElementById('demoContactForm');
+      var btn     = document.getElementById('demoSubmitBtn');
+      var success = document.getElementById('demoFormSuccess');
+      if (!form) return;
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+
+        var name     = (document.getElementById('name')?.value     || '').trim();
+        var email    = (document.getElementById('email')?.value    || '').trim();
+        var phone    = (document.getElementById('phone')?.value    || '').trim();
+        var interest = (document.getElementById('interest')?.value || '').trim();
+        var message  = (document.getElementById('message')?.value  || '').trim();
+
+        var parts = [
+          '\uD83C\uDFE2 *New Demo Request \u2014 Trishakti Immersive Realty*',
+          '',
+          '\uD83D\uDC64 *Name:* ' + name,
+          email    ? '\u2709\uFE0F *Email:* '          + email    : null,
+          phone    ? '\uD83D\uDCDE *Phone:* '          + phone    : null,
+          interest ? '\uD83C\uDFAF *Interested In:* ' + interest : null,
+          message  ? '\n\uD83D\uDCAC *Message:*\n'    + message  : null
+        ].filter(Boolean).join('\n');
+
+        var waUrl = 'https://wa.me/918984205703?text=' + encodeURIComponent(parts);
+
+        btn.textContent = 'Opening WhatsApp\u2026';
+        btn.disabled    = true;
+
+        setTimeout(function () {
+          window.open(waUrl, '_blank');
+          if (success) success.style.display = 'block';
+          form.reset();
+          setTimeout(function () {
+            btn.textContent = 'Send Message';
+            btn.disabled    = false;
+            if (success) success.style.display = 'none';
+          }, 5000);
+        }, 500);
+      });
+    })();
+  </script>
 </body>
 </html>
