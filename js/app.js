@@ -347,38 +347,80 @@ function initCounters() {
 function initTimeSlider() {
   const slider   = document.getElementById('timeSlider');
   const timeDisp = document.getElementById('tsTime');
-  const backwall = document.getElementById('vrBackwall');
-  const light    = document.getElementById('vrLight');
-
+  const room     = document.getElementById('vrRoomContainer');
+  const sunMoon  = document.getElementById('vrSunMoon');
+  
   if (!slider) return;
 
   function update() {
-    const v   = parseInt(slider.value); // 0 = night, 100 = day
+    const v = parseInt(slider.value); // 0 = night, 100 = day
+    
     /* Time label */
     const hour = Math.round(6 + (v / 100) * 16); // 6am→10pm
     const ampm = hour >= 12 ? 'PM' : 'AM';
     const h12  = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
     timeDisp.textContent = `${h12}:00 ${ampm}`;
 
-    /* Room colour */
-    const dayR   = [15, 29, 74];   // #0f1d4a  (day = slightly lighter)
-    const nightR = [5, 8, 25];     // dark night
-    const lerp   = (a, b, t) => Math.round(a + (b - a) * t);
-    const t      = v / 100;
-    const r = lerp(nightR[0], dayR[0], t);
-    const g = lerp(nightR[1], dayR[1], t);
-    const b = lerp(nightR[2], dayR[2], t);
-    if (backwall) backwall.style.background = `rgb(${r},${g},${b})`;
+    const t = v / 100;
+    
+    /* Sky Gradient */
+    const daySky     = [79, 172, 254];  // #4facfe
+    const daySkyDk   = [26, 75, 140];   // #1A4B8C
+    const nightSky   = [5, 8, 25];      // dark night (top)
+    const nightSkyBg = [10, 16, 40];    // horiz night
+    
+    const lerp = (a, b, t) => Math.round(a + (b - a) * t);
+    
+    const r1 = lerp(nightSky[0], daySky[0], t);
+    const g1 = lerp(nightSky[1], daySky[1], t);
+    const b1 = lerp(nightSky[2], daySky[2], t);
+    
+    const r2 = lerp(nightSkyBg[0], daySkyDk[0], t);
+    const g2 = lerp(nightSkyBg[1], daySkyDk[1], t);
+    const b2 = lerp(nightSkyBg[2], daySkyDk[2], t);
 
-    /* Window light */
-    if (light) {
-      if (v < 20) {
-        light.style.background = 'linear-gradient(180deg,rgba(80,100,200,.25) 0%,rgba(40,60,160,.1) 100%)'; // night sky
+    if (room) {
+      room.style.background = `linear-gradient(180deg, rgb(${r1},${g1},${b1}) 0%, rgb(${r2},${g2},${b2}) 100%)`;
+    }
+
+    /* Sun / Moon Arc */
+    if (sunMoon) {
+      const startX = 80; const endX = 20;
+      const x = lerp(startX, endX, t); // Moves right to left
+
+      // Parabola for y: highest at t=0.5 (noon)
+      // y = a(x - h)^2 + k
+      // if t=0 or 1, y=90; if t=0.5, y=10.
+      const y = 90 * Math.pow(t - 0.5, 2) * 4 + 10;
+      
+      sunMoon.style.left = `${x}%`;
+      sunMoon.style.top = `${y}%`;
+      
+      if (t < 0.25) {
+        sunMoon.style.background = '#e2e8f0'; // moon
+        sunMoon.style.boxShadow = '0 0 20px rgba(226,232,240,0.6)';
       } else {
-        const warm = Math.round(v * 2);
-        light.style.background = `linear-gradient(180deg,rgba(255,${180+warm},${60+warm},.4) 0%,rgba(255,${160+warm},${40},.15) 100%)`;
+        sunMoon.style.background = '#ffde00'; // sun
+        sunMoon.style.boxShadow = '0 0 30px #ffde00';
       }
     }
+
+    /* Windows */
+    const windows = document.querySelectorAll('.b-win');
+    windows.forEach((win, index) => {
+      // Create some randomness so lights don't all turn off exactly at the same time
+      const turnOnThreshold = 0.4 + (Math.sin(index * 123) * 0.15); // ranges ~0.25 to 0.55
+      
+      if (t < turnOnThreshold) {
+        // Nighttime -> Lights ON
+        win.style.background = '#ffde00';
+        win.style.boxShadow = '0 0 8px rgba(255, 222, 0, 0.7)';
+      } else {
+        // Daytime -> Lights OFF (dark reflection)
+        win.style.background = '#0d162d';
+        win.style.boxShadow = 'none';
+      }
+    });
   }
 
   slider.addEventListener('input', update);
