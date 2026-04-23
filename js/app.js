@@ -33,7 +33,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 function initAllExceptThree() {
-  initThemeToggle();
+
   initTyped();
   initNavbar();
   initScrollAnimations();
@@ -45,29 +45,7 @@ function initAllExceptThree() {
   initHeroEntrance();
 }
 
-/* ── THEME TOGGLE ── */
-function initThemeToggle() {
-  const toggles = document.querySelectorAll('.theme-toggle');
-  const savedTheme = localStorage.getItem('theme');
-  const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  let currentTheme = savedTheme || (systemDark ? 'dark' : 'light');
 
-  const applyTheme = (theme) => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-    window.dispatchEvent(new CustomEvent('themeChanged', { detail: theme }));
-  };
-
-  applyTheme(currentTheme);
-
-  toggles.forEach(t => {
-    t.addEventListener('click', (e) => {
-      e.stopPropagation();
-      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      applyTheme(currentTheme);
-    });
-  });
-}
 
 /* ── 3. SCROLLYTELLING THREE.JS ── */
 function initScrollytellingThree() {
@@ -155,22 +133,7 @@ function initScrollytellingThree() {
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
 
-  /* Theme update logic */
-  const updateThreeTheme = (theme) => {
-    if (theme === 'light') {
-      ambLight.color.setHex(0xB0C4DE);
-      dLight.color.setHex(0x0066CC);
-      pMat.color.setHex(0x2B5CE6);
-      pMat.opacity = 0.3;
-    } else {
-      ambLight.color.setHex(0x0A1540);
-      dLight.color.setHex(0x00C8FF);
-      pMat.color.setHex(0x00C8FF);
-      pMat.opacity = 0.5;
-    }
-  };
-  updateThreeTheme(document.documentElement.getAttribute('data-theme') || 'dark');
-  window.addEventListener('themeChanged', (e) => updateThreeTheme(e.detail));
+
 
   /* Animation loop */
   let t = 0;
@@ -440,27 +403,57 @@ function initCardTilt() {
 }
 
 /* ── 11. CONTACT FORM ── */
+/* ── 11. CONTACT FORM ── */
 function initContactForm() {
   const form    = document.getElementById('contactForm');
   const btn     = document.getElementById('submitBtn');
   const success = document.getElementById('formSuccess');
   if (!form) return;
 
-  form.addEventListener('submit', e => {
+  // IMPORTANT: Replace this URL with the Google Apps Script Web App URL after deployment
+  const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE"; 
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (SCRIPT_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") {
+      alert("Please configure the SCRIPT_URL in app.js with your Google Apps Script backend.");
+      return;
+    }
+
+    const originalText = btn.innerHTML;
     btn.textContent = 'Sending…';
     btn.disabled    = true;
-    /* Simulate send */
-    setTimeout(() => {
+
+    try {
+      const formData = new FormData(form);
+      formData.append('Date', new Date().toLocaleString());
+      
+      // We use 'no-cors' mode to bypass cross-origin browser blocking, 
+      // which is standard for simple Google Apps Script form submissions.
+      await fetch(SCRIPT_URL, { 
+        method: 'POST', 
+        body: formData, 
+        mode: 'no-cors' 
+      });
+      
       btn.textContent = '✓ Sent!';
-      success.style.display = 'block';
+      if(success) success.style.display = 'block';
       form.reset();
+      
       setTimeout(() => {
-        btn.textContent = 'Book a Demo →';
+        btn.innerHTML   = originalText;
         btn.disabled    = false;
-        success.style.display = 'none';
+        if(success) success.style.display = 'none';
       }, 4000);
-    }, 1200);
+      
+    } catch (err) {
+      console.error('Submission failed', err);
+      btn.textContent = 'Error! Try Again';
+      setTimeout(() => {
+        btn.innerHTML   = originalText;
+        btn.disabled    = false;
+      }, 3000);
+    }
   });
 }
 

@@ -42,10 +42,7 @@
         <li><a href="index.html#vision" class="nl">Vision</a></li>
         <li><a href="contact.html" class="nl">Contact</a></li>
       </ul>
-      <button class="theme-toggle" aria-label="Toggle Theme">
-        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-      </button>
+
       <a href="contact.html" class="nav-cta-btn">Get Demo</a>
       <button class="hamburger" id="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
@@ -57,13 +54,7 @@
       <a href="index.html#process">Technology</a>
       <a href="index.html#vision">Vision</a>
       <a href="contact.html">Contact</a>
-      <div class="mobile-theme-row">
-        <span>Dark Mode</span>
-        <button class="theme-toggle mobile-theme-t" aria-label="Toggle Theme">
-          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-        </button>
-      </div>
+
       <a href="contact.html" class="mobile-cta">Get Demo</a>
     </div>
   </nav>
@@ -409,23 +400,23 @@
         </div>
         <form class="contact-form reveal" id="contactForm">
           <div class="form-row">
-            <div class="fg"><input type="text" id="fName" placeholder="Your Name" required/><label for="fName">Your Name</label></div>
-            <div class="fg"><input type="text" id="fCompany" placeholder="Company / Project"/><label for="fCompany">Company</label></div>
+            <div class="fg"><input type="text" id="fName" name="Name" placeholder="Your Name" required/><label for="fName">Your Name</label></div>
+            <div class="fg"><input type="text" id="fCompany" name="Company" placeholder="Company / Project"/><label for="fCompany">Company</label></div>
           </div>
           <div class="form-row">
-            <div class="fg"><input type="email" id="fEmail" placeholder="Email Address" required/><label for="fEmail">Email</label></div>
-            <div class="fg"><input type="tel" id="fPhone" placeholder="Phone Number"/><label for="fPhone">Phone</label></div>
+            <div class="fg"><input type="email" id="fEmail" name="Email" placeholder="Email Address" required/><label for="fEmail">Email</label></div>
+            <div class="fg"><input type="tel" id="fPhone" name="Phone" placeholder="Phone Number"/><label for="fPhone">Phone</label></div>
           </div>
           <div class="fg">
-            <select id="fSol"><option value="" disabled selected>Interested In…</option>
-              <option>3D Interactive Viewer</option>
-              <option>3D Smart Brochure</option>
-              <option>Immersive VR Walkthrough</option>
-              <option>Drone Simulator</option>
-              <option>Complete Package</option>
+            <select id="fSol" name="Interest"><option value="" disabled selected>Interested In…</option>
+              <option value="3D Interactive Viewer">3D Interactive Viewer</option>
+              <option value="3D Smart Brochure">3D Smart Brochure</option>
+              <option value="Immersive VR Walkthrough">Immersive VR Walkthrough</option>
+              <option value="Drone Simulator">Drone Simulator</option>
+              <option value="Complete Package">Complete Package</option>
             </select>
           </div>
-          <div class="fg"><textarea id="fMsg" rows="4" placeholder="Tell us about your project…"></textarea></div>
+          <div class="fg"><textarea id="fMsg" name="Message" rows="4" placeholder="Tell us about your project…"></textarea></div>
           <button type="submit" class="btn-primary btn-full" id="submitBtn">Book a Demo <span>→</span></button>
           <div class="form-success" id="formSuccess">✅ Thank you! We'll reach out within 24 hours.</div>
         </form>
