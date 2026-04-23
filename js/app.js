@@ -405,55 +405,50 @@ function initCardTilt() {
 /* ── 11. CONTACT FORM ── */
 /* ── 11. CONTACT FORM ── */
 function initContactForm() {
-  const form    = document.getElementById('contactForm');
-  const btn     = document.getElementById('submitBtn');
-  const success = document.getElementById('formSuccess');
+  const form = document.getElementById('demoContactForm');
+  const btn = document.getElementById('demoSubmitBtn');
+  const success = document.getElementById('demoFormSuccess');
   if (!form) return;
 
-  // IMPORTANT: Replace this URL with the Google Apps Script Web App URL after deployment
-  const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE"; 
-
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
-    if (SCRIPT_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") {
-      alert("Please configure the SCRIPT_URL in app.js with your Google Apps Script backend.");
-      return;
-    }
 
-    const originalText = btn.innerHTML;
-    btn.textContent = 'Sending…';
+    /* Gather field values */
+    const name     = (document.getElementById('name')?.value     || '').trim();
+    const email    = (document.getElementById('email')?.value    || '').trim();
+    const phone    = (document.getElementById('phone')?.value    || '').trim();
+    const interest = (document.getElementById('interest')?.value || '').trim();
+    const msg      = (document.getElementById('message')?.value  || '').trim();
+
+    /* Compose WhatsApp message */
+    const lines = [
+      '🏢 *New Demo Request — Trishakti Immersive Realty*',
+      '',
+      `👤 *Name:* ${name}`,
+      email    ? `✉️ *Email:* ${email}`   : null,
+      phone    ? `📞 *Phone:* ${phone}`   : null,
+      interest ? `🎯 *Interested In:* ${interest}` : null,
+      msg      ? `\n💬 *Message:*\n${msg}` : null,
+    ].filter(Boolean).join('\n');
+
+    const waUrl = `https://wa.me/918984205703?text=${encodeURIComponent(lines)}`;
+
+    /* Visual feedback */
+    btn.textContent = 'Opening WhatsApp…';
     btn.disabled    = true;
 
-    try {
-      const formData = new FormData(form);
-      formData.append('Date', new Date().toLocaleString());
-      
-      // We use 'no-cors' mode to bypass cross-origin browser blocking, 
-      // which is standard for simple Google Apps Script form submissions.
-      await fetch(SCRIPT_URL, { 
-        method: 'POST', 
-        body: formData, 
-        mode: 'no-cors' 
-      });
-      
-      btn.textContent = '✓ Sent!';
-      if(success) success.style.display = 'block';
+    setTimeout(() => {
+      window.open(waUrl, '_blank');
+      btn.textContent = '✓ Message Ready!';
+      if (success) success.style.display = 'block';
       form.reset();
       
       setTimeout(() => {
-        btn.innerHTML   = originalText;
+        btn.textContent = 'Send Message';
         btn.disabled    = false;
-        if(success) success.style.display = 'none';
+        if (success) success.style.display = 'none';
       }, 4000);
-      
-    } catch (err) {
-      console.error('Submission failed', err);
-      btn.textContent = 'Error! Try Again';
-      setTimeout(() => {
-        btn.innerHTML   = originalText;
-        btn.disabled    = false;
-      }, 3000);
-    }
+    }, 600);
   });
 }
 
